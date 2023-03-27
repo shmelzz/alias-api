@@ -1,10 +1,3 @@
-//
-//  Room.swift
-//  
-//
-//  Created by Elizaveta Shelemekh on 24.03.2023.
-//
-
 import Vapor
 import Fluent
 
@@ -18,8 +11,8 @@ final class Room: Model, Content {
     @Field(key: "isPublic")
     var isPublic: Bool
     
-    @Field(key: "admin")
-    var admin: UUID
+    @Parent(key: "admin")
+    var admin: User
     
     @Field(key: "code")
     var invitationCode: String?
@@ -38,10 +31,10 @@ final class Room: Model, Content {
     
     init() {}
     
-    init(id: UUID? = nil, isPublic: Bool, admin: UUID, invitationCode: String? = nil) {
+    init(id: UUID? = nil, isPublic: Bool, admin: User.IDValue, invitationCode: String? = nil) {
         self.id = id
         self.isPublic = isPublic
-        self.admin = admin
+        self.$admin.id = admin
         self.invitationCode = invitationCode
     }
 }
