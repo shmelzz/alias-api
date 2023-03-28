@@ -50,6 +50,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateUsers())
     app.migrations.add(CreateRooms())
     app.migrations.add(CreateTokens())
+    app.migrations.add(CreateRoomParticipantPivot())
     
     
     try app.autoMigrate().wait()

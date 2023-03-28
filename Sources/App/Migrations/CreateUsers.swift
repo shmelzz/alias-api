@@ -16,7 +16,7 @@ struct CreateUsers: Migration {
             .field("password_hash", .string, .required)
             .field("created_at", .datetime, .required)
             .field("updated_at", .datetime, .required)
-            .field("roomId", .uuid, .references("rooms", "id"))
+            .field("roomId", .uuid)
             .field("teamNumber", .int)
             .create()
     }

@@ -20,39 +20,26 @@ final class Room: Model, Content {
     @Parent(key: "admin")
     var admin: User
     
-//    @Field(key: "code")
-//    var invitationCode: String?
-//
+    @OptionalField(key: "code")
+    var invitationCode: String?
+
+    @Field(key: "pointsToWin")
+    var pointsToWin: Int
+
+    @Field(key: "roundTime")
+    var roundTime: Int
     
-   // var settings: Settings
-    
-//    struct Settings {
-//
-//        @Field(key: "pointsToWin")
-//        var pointsToWin: Int
-//
-//        @Field(key: "roundTime")
-//        var roundTime: Int
-//
-//        @Field(key: "teamsCount")
-//        var teamsCount: Int
-//    }
-    
-//    @Field(key: "pointsToWin")
-//    var pointsToWin: Int
-//
-//    @Field(key: "roundTime")
-//    var roundTime: Int
-//
-//    @Field(key: "teamsCount")
-//    var teamsCount: Int
+    @Siblings(through: RoomParticipantPivot.self, from: \.$room, to: \.$participant)
+    var players: [User]
     
     init() {}
     
-    init(id: UUID? = nil, isPublic: Bool, admin: User.IDValue) {
+    init(id: UUID? = nil, isPublic: Bool, admin: User.IDValue, invitationCode: String? = nil, pointsToWin: Int = 2, roundTime: Int = 60) {
         self.id = id
         self.isPublic = isPublic
         self.$admin.id = admin
-        // self.invitationCode = invitationCode
+        self.invitationCode = invitationCode
+        self.pointsToWin = pointsToWin
+        self.roundTime = roundTime
     }
 }
