@@ -15,36 +15,20 @@ struct RoomController: RouteCollection {
         let roomsRoute = routes.grouped("rooms")
         
         // roomsRoute.get(":roomId", use: getDinner)
-        roomsRoute.post("new", use: create)
-        roomsRoute.get("all", use: index)
         // roomsRoute.put(":dinnerId", "invite", ":userId", use: inviteUser)
-    }
-    
-    fileprivate func create(req: Request) throws -> EventLoopFuture<Room>  {
-        let admin = try req.auth.require(User.self)
         
-        let room = try req.content.decode(Room.self)
-        room.$admin.id = admin.id ?? UUID()
-        return room.save(on: req.db).map { room }
+        roomsRoute.post("new") { req -> EventLoopFuture<Room> in
+            let room = try req.content.decode(Room.self)
+            return room.save(on: req.db).map { room }
+        }
+        
+        roomsRoute.get("all") { req -> EventLoopFuture<[Room]> in
+            return Room.query(on: req.db).all()
+        }
+        
+        roomsRoute.get("public") { req -> EventLoopFuture<[Room]> in
+            return Room.query(on: req.db).filter(\.$isPublic == true).all()
+        }
+        
     }
-    
-    
-    func index(req: Request) throws -> EventLoopFuture<[Room]> {
-        return Room.query(on: req.db).all()
-    }
-    
-    //    fileprivate func getRoom(req: Request) throws -> EventLoopFuture<Room.Public> {
-    //      guard let roomId = req.parameters.get("roomId", as: UUID.self) else {
-    //          throw Abort(.badRequest)
-    //      }
-    //
-    //      return Room.query(on: req.db)
-    //        .filter(\.$id == roomId)
-    //        .with(\.$admin)
-    //        .first()
-    //        .unwrap(or: Abort(.notFound))
-    //        .flatMapThrowing { try $0.self() }
-    //    }
-    
-    
 }
