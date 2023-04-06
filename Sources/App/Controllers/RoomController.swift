@@ -32,19 +32,15 @@ struct RoomController: RouteCollection {
             return Room.find(roomId, on: req.db).unwrap(or: Abort(.notFound))
         }
         
-//        roomsRoute.post(":roomId", "join", ":userId") { req -> EventLoopFuture<Room> in
-//            if let userId = req.parameters.get("roomId", as: UUID.self),
-//               let roomId = req.parameters.get("roomId", as: UUID.self) {
-//                return Room.find(roomId, on: req.db)
-//                    .unwrap(or: Abort(.notFound))
-//                    .flatMap { room in
-//                        let gameParticipant = RoomParticipantPivot(roomId: roomId, participantId: userId)
-//                        return gameParticipant.create(on: req.db).transform(to: room)
-//                    }
-//            } else {
-//                return Room.find(UUID(), on: req.db).unwrap(or: Abort(.notFound))
-//            }
-//        }
-    
+        roomsRoute.post(":roomId", "join", ":userId") { req -> EventLoopFuture<RoomParticipantPivot> in
+            //  roomsRoute.post("join") { req -> EventLoopFuture<RoomParticipantPivot> in
+            
+            let userId = req.parameters.get("userId", as: UUID.self)
+            let roomId = req.parameters.get("roomId", as: UUID.self)
+            
+            // let room = try? req.content.decode(RoomParticipantPivot.self)
+            let room = RoomParticipantPivot(roomId: roomId, participantId: userId)
+            return room.save(on: req.db).map { room }
+        }
     }
 }

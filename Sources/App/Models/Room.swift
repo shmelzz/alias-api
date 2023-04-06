@@ -29,8 +29,8 @@ final class Room: Model, Content {
     @Field(key: "roundTime")
     var roundTime: Int
     
-    @Siblings(through: RoomParticipantPivot.self, from: \.$room, to: \.$participant)
-    var players: [User]
+//    @Siblings(through: RoomParticipantPivot.self, from: \.$room, to: \.$participant)
+//    var players: [User]
     
     init() {}
     
