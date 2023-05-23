@@ -1,14 +1,13 @@
-//
-//  Room.swift
-//  
-//
-//  Created by Elizaveta Shelemekh on 24.03.2023.
-//
-
 import Vapor
 import Fluent
 
 final class Room: Model, Content {
+    
+//    struct Public: Content {
+//        let isPublic: Bool
+//        let id: UUID
+//        let admin : User
+//    }
     
     static let schema = "rooms"
     
@@ -18,30 +17,29 @@ final class Room: Model, Content {
     @Field(key: "isPublic")
     var isPublic: Bool
     
-    @Field(key: "admin")
-    var admin: UUID
+    @Parent(key: "admin")
+    var admin: User
     
-    @Field(key: "code")
+    @OptionalField(key: "code")
     var invitationCode: String?
+
+    @Field(key: "pointsToWin")
+    var pointsToWin: Int
+
+    @Field(key: "roundTime")
+    var roundTime: Int
     
-    struct Settings {
-        
-        @Field(key: "pointsToWin")
-        var pointsToWin: Int
-        
-        @Field(key: "roundTime")
-        var roundTime: Int
-        
-        @Field(key: "teamsCount")
-        var teamsCount: Int
-    }
+//    @Siblings(through: RoomParticipantPivot.self, from: \.$room, to: \.$participant)
+//    var players: [User]
     
     init() {}
     
-    init(id: UUID? = nil, isPublic: Bool, admin: UUID, invitationCode: String? = nil) {
+    init(id: UUID? = nil, isPublic: Bool, admin: User.IDValue, invitationCode: String? = nil, pointsToWin: Int = 2, roundTime: Int = 60) {
         self.id = id
         self.isPublic = isPublic
-        self.admin = admin
+        self.$admin.id = admin
         self.invitationCode = invitationCode
+        self.pointsToWin = pointsToWin
+        self.roundTime = roundTime
     }
 }

@@ -1,0 +1,369 @@
+{
+	"info": {
+		"_postman_id": "a033e7e6-be77-4194-a63d-506b170ada6b",
+		"name": "Alias-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26593060"
+	},
+	"item": [
+		{
+			"name": "Authenticating Users",
+			"item": [
+				{
+					"name": "(1) Sign up",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"shmelzzz\",\n    \"password\": \"qwerty\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/users/signup",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(1.1) Sign up other user 1",
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"MichelinJudge\",\n    \"password\": \"DontPawnMe\"\n}"
+						},
+						"url": {
+							"raw": "{{serverURL}}/users/signup",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(1.2) Sign up other user 2",
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"FreeEater\",\n    \"password\": \"GiveMeFood\"\n}"
+						},
+						"url": {
+							"raw": "{{serverURL}}/users/signup",
+							"host": [
+								"{{serverURL}}"
+							],
+							"path": [
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(2) Me",
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/users/me",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(3) Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"pm.globals.set(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "qwerty",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "shmelzzz",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"shmelzzz\",\n    \"password\": \"qwerty\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "(4) New room",
+					"protocolProfileBehavior": {
+						"followRedirects": false,
+						"followOriginalHttpMethod": false,
+						"followAuthorizationHeader": false
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"isPublic\": true,\n    \"pointsToWin\": 20,\n    \"roundTime\": 60,\n    \"admin\": \n    {\n        \"username\": \"shmelzzz\",\n        \"id\": \"86027159-2C45-4D6D-BBBD-A2B20F18F44A\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/rooms/new",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"rooms",
+								"new"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "all rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/rooms/all",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"rooms",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "room by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/rooms/24EE1495-8F2F-4ED8-8D79-04084F110435",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"rooms",
+								"24EE1495-8F2F-4ED8-8D79-04084F110435"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "join room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/rooms/AECDC532-9F55-4A33-BD90-74729E390F48/join/86027159-2C45-4D6D-BBBD-A2B20F18F44A",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"rooms",
+								"AECDC532-9F55-4A33-BD90-74729E390F48",
+								"join",
+								"86027159-2C45-4D6D-BBBD-A2B20F18F44A"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
